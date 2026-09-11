@@ -2,8 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مطعم الخيال | اطلب أونلاين</title>
+<meta name="description" content="اطلب من مطعم الخيال أونلاين — برغر، ريزو، سندويجات، أطباق ساخنة وفلافل، مع توصيل مجاني لعدة مناطق. اختر وجبتك وأرسل طلبك مباشرة عبر واتساب.">
+<meta name="theme-color" content="#0b0a09">
+<meta property="og:title" content="مطعم الخيال | اطلب أونلاين">
+<meta property="og:description" content="اختر وجبتك، خصّصها كما تحب، وأرسل طلبك مباشرة عبر واتساب — بدون تعقيد وبدون انتظار.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23c9a05c'/%3E%3Cstop offset='1' stop-color='%23e07a34'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-size='30' font-family='Arial' font-weight='900' text-anchor='middle' fill='%230b0a09'%3E%D8%AE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -427,6 +433,52 @@
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
   }
+
+  /* ---------- QUICK-ADD STEPPER (on card) ---------- */
+  .card-stepper{
+    display:flex; align-items:center; gap:10px;
+    background:var(--orange); border-radius:999px; padding:4px;
+  }
+  .card-stepper button{
+    width:26px; height:26px; border-radius:999px; background:rgba(11,10,9,0.18);
+    color:#1a0e05; font-size:15px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .card-stepper button:active{background:rgba(11,10,9,0.32);}
+  .card-stepper .card-qty{
+    min-width:16px; text-align:center; color:#1a0e05; font-family:'Cairo'; font-weight:800; font-size:13px;
+  }
+
+  /* ---------- STATUS BADGE (open/closed) ---------- */
+  .status-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:700; padding:6px 13px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  .status-badge.open{color:#8fd19e; background:rgba(90,200,120,0.12); border:1px solid rgba(90,200,120,0.3);}
+  .status-badge.closed{color:#e7a08a; background:rgba(224,122,52,0.1); border:1px solid rgba(224,122,52,0.3);}
+  .status-dot{width:7px; height:7px; border-radius:999px; background:currentColor;}
+  .status-badge.open .status-dot{animation:pulseDot 1.8s ease-in-out infinite;}
+  @keyframes pulseDot{0%,100%{opacity:1;} 50%{opacity:0.35;}}
+
+  /* ---------- SEARCH CLEAR / NAV CALL BUTTON ---------- */
+  .search-bar{position:relative;}
+  .search-clear{
+    display:none; color:var(--muted); flex:0 0 auto; width:22px; height:22px;
+    border-radius:999px; align-items:center; justify-content:center;
+  }
+  .search-clear.show{display:flex;}
+  .search-clear:hover{color:var(--white); background:rgba(244,236,223,0.08);}
+  .nav-actions{display:flex; align-items:center; gap:10px;}
+  .icon-btn{
+    width:42px; height:42px; border-radius:999px;
+    background:rgba(244,236,223,0.06); border:1px solid var(--line); color:var(--white);
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+    transition:background .2s var(--ease), border-color .2s var(--ease);
+  }
+  .icon-btn:hover{background:rgba(224,122,52,0.14); border-color:rgba(224,122,52,0.4);}
+
+  .field-hint{font-size:12px; color:var(--muted); margin-top:6px;}
 </style>
 </head>
 <body>
@@ -440,11 +492,16 @@
         <div class="brand-sub">طلب أونلاين</div>
       </div>
     </div>
-    <button class="cart-btn" id="openCartBtn" aria-label="فتح السلة">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
-      <span class="label">السلة</span>
-      <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-    </button>
+    <div class="nav-actions">
+      <a class="icon-btn" href="tel:+9647843200100" aria-label="اتصل بالمطعم">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1 .36 1.98.68 2.92a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.16-1.27a2 2 0 0 1 2.11-.45c.94.32 1.92.55 2.92.68A2 2 0 0 1 22 16.92Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="cart-btn" id="openCartBtn" aria-label="فتح السلة">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
+        <span class="label">السلة</span>
+        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -474,6 +531,9 @@
     <div class="search-bar">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3" stroke-linecap="round"/></svg>
       <input type="text" id="searchInput" placeholder="ابحث عن صنف..." aria-label="ابحث في المنيو">
+      <button class="search-clear" id="searchClear" aria-label="مسح البحث" type="button">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
     </div>
     <div class="cat-nav-fade">
       <div class="cat-nav" id="catNav"></div>
@@ -522,7 +582,7 @@
 </button>
 
 <!-- toast -->
-<div class="toast" id="toast">
+<div class="toast" id="toast" role="status" aria-live="polite">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
   <span id="toastMsg">تمت الإضافة إلى السلة</span>
 </div>
@@ -531,7 +591,7 @@
 <div class="overlay" id="overlay"></div>
 
 <!-- product customization sheet -->
-<div class="sheet" id="productSheet">
+<div class="sheet" id="productSheet" role="dialog" aria-modal="true" aria-label="تفاصيل الصنف" tabindex="-1">
   <div class="sheet-handle"></div>
   <button class="sheet-close" id="closeProduct" aria-label="إغلاق">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -540,7 +600,7 @@
 </div>
 
 <!-- cart drawer -->
-<div class="sheet" id="cartSheet">
+<div class="sheet" id="cartSheet" role="dialog" aria-modal="true" aria-label="سلة الطلب" tabindex="-1">
   <div class="cart-head">
     <h3>سلة الطلب</h3>
     <button class="sheet-close" id="closeCart" style="position:static;" aria-label="إغلاق السلة">
@@ -552,7 +612,7 @@
 </div>
 
 <!-- checkout -->
-<div class="sheet" id="checkoutSheet">
+<div class="sheet" id="checkoutSheet" role="dialog" aria-modal="true" aria-label="بيانات التوصيل" tabindex="-1">
   <div id="checkoutContent"></div>
 </div>
 
@@ -678,6 +738,17 @@ let state = {
 
 function saveCart(){ localStorage.setItem('alkhayal_cart', JSON.stringify(state.cart)); }
 
+/* ---------------- ACCESSIBILITY: focus management ---------------- */
+let lastFocusedEl = null;
+function trapFocusOn(sheetEl){
+  lastFocusedEl = document.activeElement;
+  setTimeout(()=> sheetEl.focus(), 50);
+}
+function restoreFocus(){
+  if(lastFocusedEl && lastFocusedEl.focus) lastFocusedEl.focus();
+  lastFocusedEl = null;
+}
+
 /* ---------------- CATEGORY NAV ---------------- */
 function renderCatNav(){
   const nav = document.getElementById('catNav');
@@ -743,7 +814,7 @@ function renderMenu(){
         ${p.desc ? `<div class="food-desc">${p.desc}</div>` : '<div class="food-desc"></div>'}
         <div class="food-foot">
           <span class="food-price">${fmt(p.price)}</span>
-          <button class="add-btn" data-id="${p.id}">${p.options.length ? 'تخصيص' : 'أضف للسلة'}</button>
+          ${cardControlHtml(p)}
         </div>
       </div>
     </div>
@@ -756,9 +827,31 @@ function renderMenu(){
       } else {
         addToCart(product, {}, 1);
         showToast('تمت إضافة الوجبة إلى السلة');
+        renderMenu();
       }
     });
   });
+  grid.querySelectorAll('.card-stepper').forEach(stepper=>{
+    const key = stepper.dataset.id + ':';
+    stepper.querySelector('.card-plus').addEventListener('click', ()=>{ changeQty(key, 1); renderMenu(); });
+    stepper.querySelector('.card-minus').addEventListener('click', ()=>{ changeQty(key, -1); renderMenu(); });
+  });
+}
+function cardQty(productId){
+  const item = state.cart.find(i=>i.key===productId+':');
+  return item ? item.qty : 0;
+}
+function cardControlHtml(p){
+  if(p.options.length) return `<button class="add-btn" data-id="${p.id}">تخصيص</button>`;
+  const qty = cardQty(p.id);
+  if(qty>0){
+    return `<div class="card-stepper" data-id="${p.id}">
+      <button class="card-minus" aria-label="إنقاص كمية ${p.name}">−</button>
+      <span class="card-qty">${qty}</span>
+      <button class="card-plus" aria-label="زيادة كمية ${p.name}">+</button>
+    </div>`;
+  }
+  return `<button class="add-btn" data-id="${p.id}">أضف للسلة</button>`;
 }
 
 /* ---------------- PRODUCT CUSTOMIZATION ---------------- */
@@ -769,10 +862,12 @@ function openProductSheet(product){
   renderProductSheet();
   document.getElementById('overlay').classList.add('show');
   document.getElementById('productSheet').classList.add('show');
+  trapFocusOn(document.getElementById('productSheet'));
 }
 function closeProductSheet(){
   document.getElementById('productSheet').classList.remove('show');
   document.getElementById('overlay').classList.remove('show');
+  restoreFocus();
 }
 function currentUnitPrice(){
   const p = state.currentProduct;
@@ -931,22 +1026,29 @@ function openCartSheet(){
   renderCart();
   document.getElementById('overlay').classList.add('show');
   document.getElementById('cartSheet').classList.add('show');
+  trapFocusOn(document.getElementById('cartSheet'));
 }
 function closeCartSheet(){
   document.getElementById('cartSheet').classList.remove('show');
   document.getElementById('overlay').classList.remove('show');
+  restoreFocus();
 }
 
 /* ---------------- CHECKOUT ---------------- */
-let orderInfo = {area:'', address:'', notes:''};
+let orderInfo = Object.assign({area:'', address:'', phone:'', notes:''}, JSON.parse(localStorage.getItem('alkhayal_info') || '{}'));
+function saveOrderInfo(){
+  localStorage.setItem('alkhayal_info', JSON.stringify({area:orderInfo.area, address:orderInfo.address, phone:orderInfo.phone}));
+}
 
 function openCheckout(){
   closeCartSheet();
   renderCheckoutForm();
   document.getElementById('checkoutSheet').classList.add('show');
+  trapFocusOn(document.getElementById('checkoutSheet'));
 }
 function closeCheckout(){
   document.getElementById('checkoutSheet').classList.remove('show');
+  restoreFocus();
 }
 function deliveryFeeFor(area){
   if(!area) return null;
@@ -976,6 +1078,12 @@ function renderCheckoutForm(){
         <textarea id="in-address" placeholder="اكتب عنوان التوصيل بالتفصيل">${orderInfo.address}</textarea>
         <div class="field-error">يرجى إدخال عنوان التوصيل</div>
       </div>
+      <div class="field" id="f-phone">
+        <label>رقم الهاتف</label>
+        <input type="tel" id="in-phone" inputmode="numeric" placeholder="07XXXXXXXXX" value="${orderInfo.phone}">
+        <div class="field-hint">لنتواصل معك عند الحاجة لتأكيد الطلب</div>
+        <div class="field-error">يرجى إدخال رقم هاتف عراقي صحيح (07XXXXXXXXX)</div>
+      </div>
       <div class="field">
         <label>ملاحظات الطلب (اختياري)</label>
         <textarea id="in-notes" placeholder="ملاحظات إضافية على الطلب">${orderInfo.notes}</textarea>
@@ -989,16 +1097,21 @@ function renderCheckoutForm(){
 function validateAndReview(){
   const area = document.getElementById('in-area').value;
   const address = document.getElementById('in-address').value.trim();
+  const phone = document.getElementById('in-phone').value.trim();
   const notes = document.getElementById('in-notes').value.trim();
+  const phoneDigits = phone.replace(/[^0-9]/g,'');
+  const phoneValid = /^07[0-9]{9}$/.test(phoneDigits);
 
   let valid = true;
   const setInvalid = (id, bad) => document.getElementById(id).classList.toggle('invalid', bad);
   setInvalid('f-area', !area); if(!area) valid=false;
   setInvalid('f-address', !address); if(!address) valid=false;
+  setInvalid('f-phone', !phoneValid); if(!phoneValid) valid=false;
 
   if(!valid) return;
 
-  orderInfo = {area, address, notes};
+  orderInfo = {area, address, phone:phoneDigits, notes};
+  saveOrderInfo();
   renderOrderReview();
 }
 function renderOrderReview(){
@@ -1024,6 +1137,7 @@ function renderOrderReview(){
         <h4>بيانات التوصيل</h4>
         <div class="review-line"><span>المنطقة</span><b>${orderInfo.area}</b></div>
         <div class="review-line"><span>العنوان</span><b>${orderInfo.address}</b></div>
+        <div class="review-line"><span>الهاتف</span><b>${orderInfo.phone}</b></div>
         ${orderInfo.notes ? `<div class="review-line"><span>ملاحظات</span><b>${orderInfo.notes}</b></div>` : ''}
       </div>
       <div class="review-block">
@@ -1056,6 +1170,7 @@ function buildWhatsAppMessage(){
   lines.push('بيانات التوصيل:');
   lines.push(`المنطقة: ${orderInfo.area}`);
   lines.push(`العنوان: ${orderInfo.address}`);
+  lines.push(`الهاتف: ${orderInfo.phone}`);
   if(orderInfo.notes) lines.push(`ملاحظات: ${orderInfo.notes}`);
   lines.push(sep);
   lines.push(`مجموع الطلب: ${fmt(sub)}`);
@@ -1127,13 +1242,31 @@ document.getElementById('overlay').addEventListener('click', ()=>{
 document.getElementById('stickyBar').addEventListener('click', openCartSheet);
 
 let searchDebounce;
-document.getElementById('searchInput').addEventListener('input', (e)=>{
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+searchInput.addEventListener('input', (e)=>{
   clearTimeout(searchDebounce);
   const val = e.target.value;
+  searchClear.classList.toggle('show', val.length>0);
   searchDebounce = setTimeout(()=>{
     state.search = val;
     renderMenu();
   }, 150);
+});
+searchClear.addEventListener('click', ()=>{
+  searchInput.value = '';
+  searchClear.classList.remove('show');
+  state.search = '';
+  renderMenu();
+  searchInput.focus();
+});
+
+/* ---------------- ACCESSIBILITY: escape to close ---------------- */
+document.addEventListener('keydown', (e)=>{
+  if(e.key !== 'Escape') return;
+  if(document.getElementById('checkoutSheet').classList.contains('show')) closeCheckout();
+  else if(document.getElementById('productSheet').classList.contains('show')) closeProductSheet();
+  else if(document.getElementById('cartSheet').classList.contains('show')) closeCartSheet();
 });
 
 /* ---------------- INIT ---------------- */
