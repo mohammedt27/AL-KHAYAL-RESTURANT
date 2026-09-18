@@ -322,7 +322,9 @@
   .btn-secondary{
     background:rgba(244,236,223,0.07); color:var(--white); border:1px solid var(--line);
     font-weight:700; padding:14px; border-radius:14px; font-size:14px;
+    transition:background .18s var(--ease), border-color .18s var(--ease);
   }
+  .btn-secondary:hover{background:rgba(224,122,52,0.12); border-color:rgba(224,122,52,0.3);}
 
   /* ---------- CART DRAWER CONTENT ---------- */
   .cart-head{
@@ -465,6 +467,7 @@
   }
   .status-badge.open{color:#8fd19e; background:rgba(90,200,120,0.12); border:1px solid rgba(90,200,120,0.3);}
   .status-badge.closed{color:#e7a08a; background:rgba(224,122,52,0.1); border:1px solid rgba(224,122,52,0.3);}
+  .status-badge.unknown{color:var(--gold); background:rgba(201,160,92,0.08); border:1px solid rgba(201,160,92,0.25);}
   .status-dot{width:7px; height:7px; border-radius:999px; background:currentColor;}
   .status-badge.open .status-dot{animation:pulseDot 1.8s ease-in-out infinite;}
   @keyframes pulseDot{0%,100%{opacity:1;} 50%{opacity:0.35;}}
@@ -509,7 +512,7 @@
   .rating-average-box .avg-label{font-size:12.5px; color:var(--muted); margin-top:4px;}
   .rating-footer{
     position:absolute; bottom:0; left:0; right:0; padding:16px 22px;
-    background:var(--card); border-top:1px solid var(--line);
+    background:var(--brown-2); border-top:1px solid var(--line);
   }
 
   /* ---------- REVIEWS SECTION (public page) ---------- */
@@ -524,13 +527,105 @@
   .reviews-summary-badge b{color:var(--orange); font-family:'Cairo'; font-size:16px;}
   .reviews-empty{color:var(--muted); font-size:14px; padding:20px 0;}
   .review-card{
-    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    background:linear-gradient(180deg, rgba(244,236,223,0.035), rgba(244,236,223,0.015));
+    border:1px solid var(--line); border-radius:16px;
     padding:16px 18px; margin-bottom:12px;
   }
   .review-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;}
   .review-name{font-weight:800; font-size:14.5px;}
   .review-stars{color:var(--orange); font-size:14px; letter-spacing:2px;}
   .review-breakdown{display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted);}
+
+  /* ---------- LOCATION SECTION ---------- */
+  .location-section{
+    padding:56px 0 64px;
+    opacity:0; transform:translateY(18px);
+    transition:opacity .6s var(--ease), transform .6s var(--ease);
+  }
+  .location-section.in-view{opacity:1; transform:translateY(0);}
+  .loc-heading{text-align:center; max-width:520px; margin:0 auto 32px;}
+  .loc-eyebrow{color:var(--gold); font-size:13px; font-weight:700; margin-bottom:10px;}
+  .loc-heading h2{font-family:'Cairo'; font-weight:900; font-size:clamp(24px, 4vw, 34px); line-height:1.35;}
+  .loc-heading h2 .accent{color:var(--orange);}
+
+  .loc-grid{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media (min-width:900px){ .loc-grid{grid-template-columns:1fr 1.15fr; align-items:stretch;} }
+
+  .loc-card{
+    background:linear-gradient(180deg, rgba(244,236,223,0.035), rgba(244,236,223,0.015));
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px 22px; display:flex; flex-direction:column; gap:18px;
+    transition:border-color .25s var(--ease);
+  }
+  .loc-card:hover{border-color:rgba(224,122,52,0.3);}
+  .loc-row{display:flex; align-items:flex-start; gap:14px;}
+  .loc-icon{
+    width:42px; height:42px; border-radius:12px; flex:0 0 auto;
+    background:rgba(224,122,52,0.1); border:1px solid rgba(224,122,52,0.25);
+    display:flex; align-items:center; justify-content:center; font-size:19px;
+    transition:transform .2s var(--ease);
+  }
+  .loc-row:hover .loc-icon{transform:scale(1.08);}
+  .loc-row-label{font-size:12.5px; color:var(--muted); margin-bottom:4px; font-weight:700;}
+  .loc-row-value{font-size:14.5px; line-height:1.8; color:var(--white);}
+  .hours-list{display:flex; flex-direction:column; gap:6px;}
+  .hours-row{display:flex; justify-content:space-between; font-size:13.5px; color:var(--muted); padding:3px 0;}
+  .hours-row span:last-child{color:var(--white); font-weight:600;}
+  .hours-row.today{color:var(--orange);}
+  .hours-row.today span:last-child{color:var(--orange); font-weight:800;}
+  .hours-row em{font-style:normal; color:var(--orange); font-size:11px;}
+
+  .loc-card .status-badge{align-self:flex-start;}
+
+  .loc-actions{display:flex; gap:10px; margin-top:4px; flex-wrap:wrap;}
+  .loc-actions a{
+    flex:1; min-width:150px; text-align:center; text-decoration:none;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+
+  .loc-map-wrap{
+    border-radius:var(--radius); overflow:hidden; border:1px solid var(--line);
+    min-height:280px; position:relative; box-shadow:var(--shadow);
+  }
+  .loc-map{width:100%; height:100%; min-height:280px; border:0; display:block; filter:grayscale(0.15) contrast(1.05);}
+  @media (min-width:900px){ .loc-map-wrap{min-height:0;} .loc-map{min-height:100%;} }
+
+  .loc-cta{
+    text-align:center; margin-top:40px; padding:36px 20px;
+    background:linear-gradient(135deg, rgba(224,122,52,0.1), rgba(201,160,92,0.05));
+    border:1px solid rgba(224,122,52,0.2); border-radius:var(--radius);
+  }
+  .loc-cta h3{font-family:'Cairo'; font-weight:900; font-size:22px; margin-bottom:6px;}
+  .loc-cta p{color:var(--muted); font-size:14.5px; margin-bottom:22px;}
+  .loc-cta-btn{
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:linear-gradient(135deg, var(--orange), #c9642a);
+    color:#1a0e05; font-family:'Cairo'; font-weight:800; font-size:15px;
+    padding:14px 30px; border-radius:14px; transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .loc-cta-btn:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(224,122,52,0.32);}
+
+/* ================= نادي الخيال — Loyalty Club ================= */
+.loyalty-section{padding:28px 0 64px}.loyalty-shell{background:linear-gradient(145deg,rgba(224,122,52,.13),rgba(23,15,11,.96));border:1px solid rgba(224,122,52,.22);border-radius:24px;padding:26px;box-shadow:var(--shadow);overflow:hidden;position:relative}.loyalty-shell:before{content:'🧡';position:absolute;left:24px;top:18px;font-size:54px;opacity:.08}.loyalty-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.loyalty-eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.4px}.loyalty-title{font-family:'Cairo';font-size:28px;font-weight:900;margin:4px 0}.loyalty-sub{color:var(--muted);margin:0;line-height:1.8}.loyalty-actions{display:flex;gap:10px;flex-wrap:wrap}.loyalty-btn{border:0;border-radius:12px;padding:11px 16px;font-family:inherit;font-weight:800;cursor:pointer}.loyalty-btn.primary{background:var(--orange);color:#160d08}.loyalty-btn.secondary{background:rgba(244,236,223,.07);color:var(--white);border:1px solid var(--line)}.loyalty-dashboard{display:none;margin-top:22px;grid-template-columns:1.15fr .85fr;gap:14px}.loyalty-dashboard.show{display:grid}.loyalty-card{background:rgba(11,10,9,.58);border:1px solid var(--line);border-radius:18px;padding:20px}.loyalty-card h3{margin:0 0 8px;font-size:17px}.loyalty-balance{font-family:'Cairo';font-size:36px;font-weight:900;color:var(--orange)}.loyalty-level{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(224,122,52,.12);border:1px solid rgba(224,122,52,.2);font-weight:800}.loyalty-progress{height:9px;background:rgba(244,236,223,.08);border-radius:99px;overflow:hidden;margin:13px 0 8px}.loyalty-progress span{display:block;height:100%;width:0;background:var(--orange);border-radius:inherit;transition:width .4s ease}.loyalty-muted{color:var(--muted);font-size:13px}.loyalty-modal{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.65);z-index:1000;padding:12px}.loyalty-modal.show{display:flex}.loyalty-panel{width:min(720px,100%);max-height:92vh;overflow:auto;background:#130e0b;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 30px 90px rgba(0,0,0,.55)}.loyalty-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.loyalty-panel-head h3{margin:0;font-size:22px}.loyalty-close{border:0;background:rgba(244,236,223,.07);color:var(--white);width:38px;height:38px;border-radius:50%;cursor:pointer}.loyalty-form{display:grid;gap:11px}.loyalty-form input,.loyalty-form select{width:100%;box-sizing:border-box;background:#0b0a09;color:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;outline:none}.loyalty-form input:focus{border-color:var(--orange)}.loyalty-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.loyalty-tabs{display:flex;gap:8px;margin-bottom:15px}.loyalty-tab{flex:1;padding:10px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;cursor:pointer;font:inherit;font-weight:800}.loyalty-tab.active{background:rgba(224,122,52,.13);color:var(--white);border-color:rgba(224,122,52,.35)}.loyalty-list{display:grid;gap:10px}.loyalty-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(244,236,223,.025)}.loyalty-row .plus{color:#9bd48b;font-weight:900}.loyalty-row .minus{color:#ff9a7a;font-weight:900}.reward-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.reward-item{padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(244,236,223,.025)}.reward-item h4{margin:0 0 5px}.reward-cost{color:var(--orange);font-weight:900;margin:8px 0}.voucher{margin-top:10px;padding:10px;border:1px dashed rgba(224,122,52,.45);border-radius:10px;text-align:center;font-family:monospace;font-size:18px;letter-spacing:2px;color:var(--gold)}.loyalty-error{color:#ff9a7a;font-size:13px}.loyalty-success{color:#9bd48b;font-size:13px}.admin-badge{font-size:11px;color:var(--gold);margin-inline-start:7px}@media(max-width:700px){.loyalty-head{display:block}.loyalty-actions{margin-top:15px}.loyalty-dashboard.show{grid-template-columns:1fr}.loyalty-shell{padding:20px}.reward-grid,.loyalty-form-row{grid-template-columns:1fr}.loyalty-balance{font-size:31px}}
+
+/* ================= دولاب الحظ اليومي — Daily Wheel of Fortune (Offline) ================= */
+.wheel-section{padding:8px 0 60px}
+.wheel-shell:before{content:'🎡'}
+.wheel-locked{text-align:center;padding:22px 10px 6px}
+.wheel-stage{position:relative;width:min(280px,72vw);aspect-ratio:1/1;margin:24px auto 6px;filter:drop-shadow(0 16px 32px rgba(0,0,0,.45))}
+.wheel-dial{width:100%;height:100%;transform-origin:50% 50%;transition:transform 4.3s cubic-bezier(.13,.72,.1,1)}
+.wheel-dial svg{display:block;width:100%;height:100%}
+.wheel-pointer{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:20px solid var(--gold);z-index:3;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+.wheel-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;border:3px solid var(--black);background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:var(--shadow);transition:transform .15s var(--ease),opacity .2s var(--ease);z-index:4;padding:0}
+.wheel-hub:active:not(:disabled){transform:translate(-50%,-50%) scale(.93)}
+.wheel-hub:disabled{opacity:.5;cursor:not-allowed}
+.wheel-status{text-align:center;margin-top:14px;font-weight:800;min-height:24px}
+.wheel-countdown{font-family:'Cairo';font-size:24px;font-weight:900;color:var(--gold);letter-spacing:1px;margin-top:6px}
+.wheel-confetti-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:22px;z-index:1}
+.wheel-confetti-piece{position:absolute;top:-12px;width:7px;height:11px;border-radius:2px;animation:wheelConfettiFall 1.5s ease-in forwards}
+@keyframes wheelConfettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(220px) rotate(300deg);opacity:0}}
+@media(max-width:700px){.wheel-stage{width:min(240px,76vw)}.wheel-hub{width:54px;height:54px;font-size:20px}.wheel-countdown{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.wheel-dial{transition-duration:.6s}.wheel-confetti-piece{animation:none;opacity:0}}
 </style>
 </head>
 <body>
@@ -596,6 +691,112 @@
   </div>
 </div>
 
+
+<section class="loyalty-section wrap" id="loyaltySection">
+  <div class="loyalty-shell">
+    <div class="loyalty-head">
+      <div>
+        <div class="loyalty-eyebrow">PREMIUM LOYALTY CLUB</div>
+        <h2 class="loyalty-title">نادي الخيال 🧡</h2>
+        <p class="loyalty-sub">كل طلب يقربك من مكافأتك القادمة.</p>
+      </div>
+      <div class="loyalty-actions" id="loyaltyActions">
+        <button class="loyalty-btn primary" onclick="openLoyaltyAuth('register')">انضم الآن</button>
+        <button class="loyalty-btn secondary" onclick="openLoyaltyAuth('login')">تسجيل الدخول</button>
+      </div>
+    </div>
+    <div class="loyalty-dashboard" id="loyaltyDashboard">
+      <div class="loyalty-card">
+        <div class="loyalty-muted">مرحباً بك في نادي الخيال، <strong id="loyaltyUserName"></strong></div>
+        <div style="margin-top:13px"><span class="loyalty-level" id="loyaltyLevel">🟠 خيالي</span></div>
+        <div class="loyalty-balance" id="loyaltyBalance">0 ⭐</div>
+        <div class="loyalty-muted" id="loyaltyProgressText">0 / 0</div>
+        <div class="loyalty-progress"><span id="loyaltyProgressBar"></span></div>
+        <div class="loyalty-muted" id="loyaltyNextText"></div>
+      </div>
+      <div class="loyalty-card">
+        <h3>ناديك بين إيديك</h3>
+        <p class="loyalty-muted">تابع نقاطك، مكافآتك، وسجل العمليات من مكان واحد.</p>
+        <div class="loyalty-actions" style="margin-top:14px">
+          <button class="loyalty-btn primary" onclick="document.getElementById('wheelSection').scrollIntoView({behavior:'smooth'})">🎡 دولاب اليوم</button>
+          <button class="loyalty-btn primary" onclick="openLoyaltyPanel('rewards')">🎁 المكافآت</button>
+          <button class="loyalty-btn secondary" onclick="openLoyaltyPanel('transactions')">⭐ سجل النقاط</button>
+          <button class="loyalty-btn secondary" onclick="openLoyaltyPanel('wheelHistory')">🎡 جوائز الدولاب</button>
+          <button class="loyalty-btn secondary" onclick="openLoyaltyPanel('profile')">حسابي</button>
+          <button class="loyalty-btn secondary" id="adminClubBtn" style="display:none" onclick="openLoyaltyPanel('admin')">لوحة الإدارة<span class="admin-badge">ADMIN</span></button>
+          <button class="loyalty-btn secondary" onclick="logoutLoyalty()">تسجيل الخروج</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wheel-section wrap" id="wheelSection">
+  <div class="loyalty-shell wheel-shell">
+    <div class="loyalty-head">
+      <div>
+        <div class="loyalty-eyebrow">DAILY SPIN</div>
+        <h2 class="loyalty-title">دولاب الخيال 🎡</h2>
+        <p class="loyalty-sub">محاولة واحدة مجانية كل 24 ساعة — جرّب حظك اليوم.</p>
+      </div>
+    </div>
+
+    <div id="wheelLockedState" class="wheel-locked" style="display:none">
+      <p class="loyalty-muted">🔒 سجّل الدخول أولاً حتى تحصل على فرصتك اليومية.</p>
+      <button class="loyalty-btn primary" style="margin-top:12px" onclick="openLoyaltyAuth('login')">تسجيل الدخول</button>
+    </div>
+
+    <div id="wheelActiveState" style="display:none">
+      <div class="wheel-stage">
+        <div class="wheel-pointer" aria-hidden="true"></div>
+        <div class="wheel-dial" id="wheelDial"></div>
+        <button class="wheel-hub" id="wheelHubBtn" type="button" onclick="spinWheel()" aria-label="لف دولاب الحظ اليومي">
+          <span id="wheelHubIcon" aria-hidden="true">🎡</span>
+        </button>
+      </div>
+      <div class="wheel-status" id="wheelStatusText" role="status" aria-live="polite">جاري التحميل...</div>
+    </div>
+  </div>
+</section>
+
+<div class="loyalty-modal" id="loyaltyAuthModal" aria-hidden="true">
+  <div class="loyalty-panel">
+    <div class="loyalty-panel-head"><h3 id="loyaltyAuthTitle">انضم إلى نادي الخيال 🧡</h3><button class="loyalty-close" onclick="closeLoyaltyModal('loyaltyAuthModal')">×</button></div>
+    <div class="loyalty-tabs"><button class="loyalty-tab active" id="tabRegister" onclick="switchAuthTab('register')">إنشاء حساب</button><button class="loyalty-tab" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</button></div>
+    <form class="loyalty-form" id="loyaltyRegisterForm" onsubmit="registerLoyalty(event)">
+      <input name="name" placeholder="الاسم الكامل" required minlength="2" maxlength="80">
+      <input name="phone" placeholder="رقم الهاتف" required inputmode="tel">
+      <div class="loyalty-form-row"><input name="email" type="email" placeholder="البريد الإلكتروني" required><input name="birthDate" type="date" aria-label="تاريخ الميلاد" required></div>
+      <input name="password" type="password" placeholder="كلمة المرور — 8 أحرف على الأقل" required minlength="8">
+      <button class="loyalty-btn primary" type="submit">إنشاء الحساب والانضمام</button><div id="registerMsg"></div>
+    </form>
+    <form class="loyalty-form" id="loyaltyLoginForm" style="display:none" onsubmit="loginLoyalty(event)">
+      <input name="email" type="email" placeholder="البريد الإلكتروني" required>
+      <input name="password" type="password" placeholder="كلمة المرور" required>
+      <button class="loyalty-btn primary" type="submit">دخول</button>
+      <button class="loyalty-btn secondary" type="button" onclick="openForgotPassword()">نسيت كلمة المرور؟</button><div id="loginMsg"></div>
+    </form>
+    <form class="loyalty-form" id="loyaltyForgotForm" style="display:none" onsubmit="forgotLoyalty(event)">
+      <input name="identifier" type="email" placeholder="البريد الإلكتروني" required>
+      <input name="birthDate" type="date" aria-label="تاريخ الميلاد" required>
+      <input name="newPassword" type="password" placeholder="كلمة المرور الجديدة — 8 أحرف على الأقل" required minlength="8">
+      <button class="loyalty-btn primary" type="submit">إعادة تعيين كلمة المرور محلياً</button><div id="forgotMsg"></div>
+    </form>
+  </div>
+</div>
+
+<div class="loyalty-modal" id="loyaltyPanelModal" aria-hidden="true">
+  <div class="loyalty-panel"><div class="loyalty-panel-head"><h3 id="loyaltyPanelTitle">نادي الخيال</h3><button class="loyalty-close" onclick="closeLoyaltyModal('loyaltyPanelModal')">×</button></div><div id="loyaltyPanelContent"></div></div>
+</div>
+
+<div class="loyalty-modal" id="wheelResultModal" aria-hidden="true">
+  <div class="loyalty-panel" style="position:relative;max-width:420px">
+    <div class="wheel-confetti-layer" id="wheelConfettiLayer" aria-hidden="true"></div>
+    <div class="loyalty-panel-head"><h3>دولاب الخيال</h3><button class="loyalty-close" onclick="closeLoyaltyModal('wheelResultModal')">×</button></div>
+    <div id="wheelResultContent"></div>
+  </div>
+</div>
+
 <main class="menu-section wrap" id="menu">
   <div class="menu-heading">
     <h2 id="activeCatName">القائمة</h2>
@@ -610,6 +811,58 @@
     <div id="reviewsSummary"></div>
   </div>
   <div id="reviewsList"></div>
+</section>
+
+<section class="location-section wrap" id="locationSection">
+  <div class="loc-heading">
+    <div class="loc-eyebrow">📍 موقعنا</div>
+    <h2>الخيال <span class="accent">أقرب</span> مما تتوقع.</h2>
+  </div>
+
+  <div class="loc-grid">
+    <div class="loc-card">
+      <div class="loc-row">
+        <span class="loc-icon" aria-hidden="true">📍</span>
+        <div>
+          <div class="loc-row-label">العنوان</div>
+          <div class="loc-row-value" id="locAddress"></div>
+        </div>
+      </div>
+
+      <div class="loc-row">
+        <span class="loc-icon" aria-hidden="true">🕐</span>
+        <div style="flex:1;">
+          <div class="loc-row-label">أوقات العمل</div>
+          <div class="hours-list" id="hoursList"></div>
+        </div>
+      </div>
+
+      <div class="loc-row" id="phoneRow" style="display:none;">
+        <span class="loc-icon" aria-hidden="true">📞</span>
+        <div>
+          <div class="loc-row-label">رقم الهاتف</div>
+          <div class="loc-row-value" id="phoneDisplay" dir="ltr"></div>
+        </div>
+      </div>
+
+      <div class="status-badge unknown" id="locStatus" aria-live="polite"></div>
+
+      <div class="loc-actions">
+        <a class="btn-primary" id="dirBtn1" href="#" target="_blank" rel="noopener">احصل على الاتجاهات</a>
+        <a class="btn-secondary" id="locCallBtn" href="#" style="display:none;">اتصل بنا</a>
+      </div>
+    </div>
+
+    <div class="loc-map-wrap">
+      <iframe class="loc-map" id="locMap" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="موقع مطعم الخيال على خريطة غوغل"></iframe>
+    </div>
+  </div>
+
+  <div class="loc-cta">
+    <h3>جاهز تزورنا؟</h3>
+    <p>ننتظرك في الخيال.</p>
+    <a class="loc-cta-btn" id="dirBtn2" href="#" target="_blank" rel="noopener">احصل على الاتجاهات ←</a>
+  </div>
 </section>
 
 <footer>
@@ -791,6 +1044,33 @@ const PRODUCTS = [
 const FREE_AREAS = ['القادسية الأولى','القادسية الثانية','الحرية','بنجا علي'];
 const DELIVERY_FEE = 2000;
 const WHATSAPP_NUMBER = '9647843200100'; // 07843200100 بصيغة دولية
+
+/* ================= إعدادات الفرع — عدّل من هنا فقط ================= */
+// عنوان الفرع كما يظهر في قسم "موقعنا"
+const RESTAURANT_ADDRESS = 'كركوك - القادسية الثانية - سايدين باصات الشورجة - بجوار حديقة الخيال';
+// رابط Google Maps الرسمي (يُستخدم في زر "احصل على الاتجاهات")
+const GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/YXEUf1c7Ts9KP7jRA?g_st=ac';
+// رابط الخريطة المُضمّنة (تحديد دقيق لموقع المطعم على الخريطة)
+const GOOGLE_MAPS_EMBED_SRC = 'https://www.google.com/maps?q=' +
+  encodeURIComponent('مطعم الخيال، ' + RESTAURANT_ADDRESS) +
+  '&ftid=0x1555295720ecab53:0x5b3b2234c5dbcac0&output=embed';
+// رقم الهاتف الظاهر للزبائن (نفس رقم الواتساب أعلاه). اتركه '' لإخفاء زر/سطر الهاتف.
+const PHONE_NUMBER = WHATSAPP_NUMBER;
+
+// أوقات العمل — عدّل open/close لكل يوم بصيغة 24 ساعة "HH:MM".
+// اتركها فارغة '' إذا لم تكن الساعات محددة بعد؛ سيظهر "يُحدد لاحقاً" تلقائياً.
+// المفتاح (0-6) يطابق ترقيم الأيام في جافاسكربت: 0=الأحد ... 6=السبت.
+const BUSINESS_HOURS = {
+  6: {name:'السبت',    open:'', close:''},
+  0: {name:'الأحد',    open:'', close:''},
+  1: {name:'الاثنين',  open:'', close:''},
+  2: {name:'الثلاثاء', open:'', close:''},
+  3: {name:'الأربعاء', open:'', close:''},
+  4: {name:'الخميس',   open:'', close:''},
+  5: {name:'الجمعة',   open:'', close:''},
+};
+const HOURS_DISPLAY_ORDER = [6,0,1,2,3,4,5]; // السبت أولاً حسب ترتيب الأسبوع العراقي
+/* ===================================================================== */
 
 const fmt = n => n.toLocaleString('ar-IQ') + ' د.ع';
 function thumbHtml(item){
@@ -1162,6 +1442,11 @@ function renderCheckoutForm(){
         <label>ملاحظات الطلب (اختياري)</label>
         <textarea id="in-notes" placeholder="ملاحظات إضافية على الطلب">${orderInfo.notes}</textarea>
       </div>
+      <div class="review-block" style="margin-top:4px; border-color:rgba(224,122,52,.25); background:rgba(224,122,52,.06);">
+        <div style="font-size:13px; line-height:1.8; color:var(--white); text-align:center;">
+          ⭐ كل طلب يمنحك 10 نقاط، وإذا وصل مجموع طلبك إلى 10,000 د.ع أو أكثر تحصل على 25 نقطة!
+        </div>
+      </div>
     </div>
     <div class="checkout-footer">
       <button class="btn-primary" style="width:100%;" onclick="validateAndReview()">مراجعة الطلب</button>
@@ -1183,6 +1468,30 @@ function validateAndReview(){
   orderInfo = {area, address, notes};
   saveOrderInfo();
   renderOrderReview();
+}
+function getOrderPointsForSubtotal(sub){
+  return Number(sub) >= 10000 ? 25 : 10;
+}
+function getOrderPointsMessage(sub){
+  if(Number(sub) >= 10000){
+    return '🎁 طلبك 10,000 د.ع أو أكثر — ستحصل على 25 نقطة بدلاً من 10!';
+  }
+  return '⭐ هذا الطلب يمنحك 10 نقاط. إذا وصل مجموع طلبك إلى 10,000 د.ع أو أكثر ستحصل على 25 نقطة!';
+}
+async function awardOrderPoints(){
+  if(window._orderPointsAwarded) return;
+  const session=localSession();
+  if(!session?.userId) return;
+  const user=await localGetUser(session.userId);
+  if(!user) return;
+  const sub=cartSubtotal();
+  const points=getOrderPointsForSubtotal(sub);
+  const referenceId=`order:${user.userId}:${Date.now()}:${Math.random().toString(36).slice(2,8)}`;
+  localAddTransaction(user,points,`نقاط الطلب (${fmt(sub)})`,referenceId);
+  user.orderCount=Number(user.orderCount||0)+1;
+  await localPutUser(user);
+  window._orderPointsAwarded=true;
+  await loadLoyaltyDashboard();
 }
 function renderOrderReview(){
   const sub = cartSubtotal();
@@ -1214,6 +1523,9 @@ function renderOrderReview(){
         <div class="review-line"><span>مجموع المنتجات</span><b>${fmt(sub)}</b></div>
         <div class="review-line"><span>التوصيل</span><b>${fee===0?'مجاني':fmt(fee)}</b></div>
         <div class="review-line" style="margin-top:8px; padding-top:8px; border-top:1px solid var(--line); font-size:15px;"><span>الإجمالي</span><b style="color:var(--gold); font-family:'Cairo';">${fmt(total)}</b></div>
+        <div class="review-block" style="margin:14px 0 0; border-color:rgba(224,122,52,.25); background:rgba(224,122,52,.06);">
+          <div style="font-size:13.5px; line-height:1.8; color:var(--white); text-align:center;">${getOrderPointsMessage(sub)}</div>
+        </div>
       </div>
     </div>
     <div class="checkout-footer">
@@ -1248,7 +1560,9 @@ function buildWhatsAppMessage(){
   lines.push(`الإجمالي: ${fmt(total)}`);
   return lines.join('\n');
 }
-function sendToWhatsApp(){
+async function sendToWhatsApp(){
+  try{ await awardOrderPoints(); }
+  catch(e){ console.error('Order points error:',e); }
   const msg = buildWhatsAppMessage();
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
   const el = document.getElementById('checkoutContent');
@@ -1300,6 +1614,76 @@ function showToast(msg){
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ---------------- LOCATION SECTION ---------------- */
+function localPhone(intl){
+  return intl ? '0' + intl.replace(/^964/, '') : '';
+}
+function computeOpenStatus(){
+  const today = BUSINESS_HOURS[new Date().getDay()];
+  if(!today || !today.open || !today.close) return {known:false};
+  const [oh, om] = today.open.split(':').map(Number);
+  const [ch, cm] = today.close.split(':').map(Number);
+  const openMins = oh*60 + om, closeMins = ch*60 + cm;
+  const now = new Date();
+  const nowMins = now.getHours()*60 + now.getMinutes();
+  const isOpen = closeMins > openMins
+    ? (nowMins >= openMins && nowMins < closeMins)   // دوام بنفس اليوم
+    : (nowMins >= openMins || nowMins < closeMins);  // دوام يمتد لما بعد منتصف الليل
+  return {known:true, isOpen};
+}
+function renderLocationSection(){
+  document.getElementById('locAddress').textContent = RESTAURANT_ADDRESS;
+
+  const hoursList = document.getElementById('hoursList');
+  const todayIdx = new Date().getDay();
+  hoursList.innerHTML = HOURS_DISPLAY_ORDER.map(idx => {
+    const d = BUSINESS_HOURS[idx];
+    const timeText = (d.open && d.close) ? `${d.open} - ${d.close}` : 'يُحدد لاحقاً';
+    return `<div class="hours-row ${idx===todayIdx?'today':''}">
+      <span>${d.name}${idx===todayIdx?' <em>(اليوم)</em>':''}</span>
+      <span>${timeText}</span>
+    </div>`;
+  }).join('');
+
+  const status = computeOpenStatus();
+  const statusEl = document.getElementById('locStatus');
+  if(!status.known){
+    statusEl.className = 'status-badge unknown';
+    statusEl.innerHTML = '<span class="status-dot"></span> أوقات العمل: يُحدد لاحقاً';
+  } else if(status.isOpen){
+    statusEl.className = 'status-badge open';
+    statusEl.innerHTML = '<span class="status-dot"></span> مفتوح الآن';
+  } else {
+    statusEl.className = 'status-badge closed';
+    statusEl.innerHTML = '<span class="status-dot"></span> مغلق الآن';
+  }
+
+  const phoneRow = document.getElementById('phoneRow');
+  const callBtn = document.getElementById('locCallBtn');
+  if(PHONE_NUMBER){
+    phoneRow.style.display = 'flex';
+    document.getElementById('phoneDisplay').textContent = localPhone(PHONE_NUMBER);
+    callBtn.href = 'tel:+' + PHONE_NUMBER;
+    callBtn.style.display = 'flex';
+  } else {
+    phoneRow.style.display = 'none';
+    callBtn.style.display = 'none';
+  }
+
+  ['dirBtn1','dirBtn2'].forEach(id => document.getElementById(id).href = GOOGLE_MAPS_LINK);
+  document.getElementById('locMap').src = GOOGLE_MAPS_EMBED_SRC;
+}
+function initLocationReveal(){
+  const el = document.getElementById('locationSection');
+  if(!('IntersectionObserver' in window)){ el.classList.add('in-view'); return; }
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ el.classList.add('in-view'); obs.unobserve(el); }
+    });
+  }, {threshold:0.15});
+  obs.observe(el);
 }
 
 /* ---------------- RATING ---------------- */
@@ -1468,6 +1852,404 @@ renderCatNav();
 renderMenu();
 renderCartBadge();
 renderReviews();
+renderLocationSection();
+initLocationReveal();
+setInterval(renderLocationSection, 60000); // تحديث حالة "مفتوح/مغلق" كل دقيقة
+
+/* ================= نادي الخيال — Offline Local Accounts ================= */
+const LOCAL_CLUB_DB = 'alkhayal_club_local';
+const LOCAL_CLUB_DB_VERSION = 1;
+const LOCAL_SESSION_KEY = 'alkhayal_club_session';
+const LOCAL_SETTINGS_KEY = 'alkhayal_club_settings';
+const LOCAL_REWARDS_KEY = 'alkhayal_club_rewards';
+const LOCAL_TX_KEY = 'alkhayal_club_transactions';
+const LOCAL_ITERATIONS = 120000;
+
+const DEFAULT_LOCAL_SETTINGS = {
+  iqdsPerPoint: 1000,
+  minOrderIqd: 0,
+  rounding: 'floor',
+  signupBonus: 20,
+  birthdayBonus: 50,
+  levels: [
+    {id:'khayali', name:'خيالي', emoji:'🟠', minLifetimePoints:0, bonusPercent:0},
+    {id:'khayal-plus', name:'خيال بلس', emoji:'🔥', minLifetimePoints:100, bonusPercent:5},
+    {id:'vip-khayal', name:'VIP الخيال', emoji:'👑', minLifetimePoints:200, bonusPercent:10}
+  ]
+};
+const DEFAULT_LOCAL_REWARDS = [
+  {id:'free-extra', name:'إضافة مجانية', description:'إضافة مجانية مع طلبك القادم.', pointsCost:50, active:true},
+  {id:'free-drink', name:'مشروب مجاني', description:'مشروب مجاني من الخيارات المتاحة.', pointsCost:75, active:true},
+  {id:'free-fries', name:'بطاطا مجانية', description:'بطاطا مجانية مع طلبك القادم.', pointsCost:100, active:true},
+  {id:'free-meal', name:'وجبة مجانية', description:'وجبة مجانية حسب شروط المطعم.', pointsCost:250, active:true}
+];
+
+function localClubOpenDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(LOCAL_CLUB_DB,LOCAL_CLUB_DB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('users')){
+        const store=db.createObjectStore('users',{keyPath:'userId'});
+        store.createIndex('email','email',{unique:true});
+        store.createIndex('phone','phone',{unique:true});
+      }
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('LOCAL_DB_OPEN_FAILED'));
+  });
+}
+async function localClubTx(mode,fn){
+  const db=await localClubOpenDB();
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('users',mode),store=tx.objectStore('users');
+    let result;
+    try{result=fn(store);}catch(e){reject(e);db.close();return;}
+    tx.oncomplete=()=>{db.close();resolve(result)};
+    tx.onerror=()=>{db.close();reject(tx.error||new Error('LOCAL_DB_TRANSACTION_FAILED'))};
+    tx.onabort=()=>{db.close();reject(tx.error||new Error('LOCAL_DB_TRANSACTION_ABORTED'))};
+  });
+}
+function localGetUser(userId){return localClubTx('readonly',store=>new Promise((resolve,reject)=>{const r=store.get(userId);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)}));}
+function localGetUserByIndex(index,value){return localClubTx('readonly',store=>new Promise((resolve,reject)=>{const r=store.index(index).get(value);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)}));}
+function localPutUser(user){return localClubTx('readwrite',store=>new Promise((resolve,reject)=>{const r=store.put(user);r.onsuccess=()=>resolve(user);r.onerror=()=>reject(r.error)}));}
+function localAllUsers(){return localClubTx('readonly',store=>new Promise((resolve,reject)=>{const r=store.getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)}));}
+function localId(){return crypto.randomUUID?crypto.randomUUID():`${Date.now()}-${crypto.getRandomValues(new Uint32Array(2)).join('')}`;}
+function localNormalizeEmail(v){return String(v||'').trim().toLowerCase();}
+function localNormalizePhone(v){return String(v||'').replace(/[\s()-]/g,'').trim();}
+function localValidPhone(v){return /^\+?[0-9]{8,15}$/.test(v);}
+function localValidBirthDate(v){if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const d=new Date(v+'T00:00:00');return !Number.isNaN(d.getTime())&&d<=new Date();}
+function localHex(bytes){return Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,'0')).join('');}
+function localBytes(hex){const a=new Uint8Array(hex.length/2);for(let i=0;i<a.length;i++)a[i]=parseInt(hex.slice(i*2,i*2+2),16);return a;}
+async function localHashPassword(password,saltHex=localHex(crypto.getRandomValues(new Uint8Array(16)))){
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:localBytes(saltHex),iterations:LOCAL_ITERATIONS,hash:'SHA-256'},key,256);
+  return `pbkdf2-sha256$${LOCAL_ITERATIONS}$${saltHex}$${localHex(bits)}`;
+}
+async function localVerifyPassword(password,stored){
+  const p=String(stored||'').split('$');
+  if(p.length!==4||p[0]!=='pbkdf2-sha256')return false;
+  const calculated=await localHashPassword(password,p[2]);
+  const a=calculated.split('$')[3],b=p[3];
+  if(a.length!==b.length)return false;
+  let diff=0;for(let i=0;i<a.length;i++)diff|=a.charCodeAt(i)^b.charCodeAt(i);return diff===0;
+}
+function localReadJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key)||'null');return v??fallback}catch{return fallback}}
+function localWriteJSON(key,value){localStorage.setItem(key,JSON.stringify(value));}
+function localSettings(){return localReadJSON(LOCAL_SETTINGS_KEY,DEFAULT_LOCAL_SETTINGS)}
+function localRewards(){return localReadJSON(LOCAL_REWARDS_KEY,DEFAULT_LOCAL_REWARDS)}
+function localTransactions(){return localReadJSON(LOCAL_TX_KEY,[])}
+function localSetSession(userId){localStorage.setItem(LOCAL_SESSION_KEY,JSON.stringify({userId,createdAt:new Date().toISOString()}));}
+function localClearSession(){localStorage.removeItem(LOCAL_SESSION_KEY);}
+function localSession(){return localReadJSON(LOCAL_SESSION_KEY,null)}
+function localMsg(id,text,kind='error'){const el=document.getElementById(id);if(el)el.innerHTML=`<div class="loyalty-${kind}">${escapeHtml(text)}</div>`;}
+function openLoyaltyAuth(tab='register'){document.getElementById('loyaltyAuthModal').classList.add('show');switchAuthTab(tab)}
+function closeLoyaltyModal(id){document.getElementById(id)?.classList.remove('show')}
+function switchAuthTab(tab){
+  document.getElementById('loyaltyRegisterForm').style.display=tab==='register'?'grid':'none';
+  document.getElementById('loyaltyLoginForm').style.display=tab==='login'?'grid':'none';
+  document.getElementById('loyaltyForgotForm').style.display='none';
+  document.getElementById('tabRegister').classList.toggle('active',tab==='register');document.getElementById('tabLogin').classList.toggle('active',tab==='login');
+  document.getElementById('loyaltyAuthTitle').textContent=tab==='register'?'انضم إلى نادي الخيال 🧡':'تسجيل الدخول إلى نادي الخيال';
+  localMsg('registerMsg','');localMsg('loginMsg','');localMsg('forgotMsg','');
+}
+function openForgotPassword(){
+  document.getElementById('loyaltyRegisterForm').style.display='none';document.getElementById('loyaltyLoginForm').style.display='none';document.getElementById('loyaltyForgotForm').style.display='grid';
+  document.getElementById('tabRegister').classList.remove('active');document.getElementById('tabLogin').classList.remove('active');document.getElementById('loyaltyAuthTitle').textContent='استعادة كلمة المرور محلياً';
+}
+function localComputeLevel(user){const levels=[...(localSettings().levels||DEFAULT_LOCAL_SETTINGS.levels)].sort((a,b)=>Number(a.minLifetimePoints)-Number(b.minLifetimePoints));let current=levels[0]||DEFAULT_LOCAL_SETTINGS.levels[0];for(const level of levels)if(Number(user.lifetimeEarned)>=Number(level.minLifetimePoints))current=level;const idx=levels.findIndex(x=>x.id===current.id);return {current,next:levels[idx+1]||null};}
+function localAddTransaction(user,points,reason,referenceId=null){const txs=localTransactions();const nextBalance=Number(user.balance||0)+Number(points);if(nextBalance<0)throw new Error('INSUFFICIENT_POINTS');const tx={id:localId(),userId:user.userId,points:Number(points),reason,referenceId,balanceAfter:nextBalance,createdAt:new Date().toISOString()};txs.unshift(tx);localWriteJSON(LOCAL_TX_KEY,txs);user.balance=nextBalance;if(points>0)user.lifetimeEarned=Number(user.lifetimeEarned||0)+Number(points);return tx;}
+async function registerLoyalty(e){
+  e.preventDefault();const f=new FormData(e.target);const name=String(f.get('name')||'').trim(),phone=localNormalizePhone(f.get('phone')),email=localNormalizeEmail(f.get('email')),birthDate=String(f.get('birthDate')||''),password=String(f.get('password')||'');
+  localMsg('registerMsg','');
+  if(!name||!phone||!email||!birthDate||!password){localMsg('registerMsg','يرجى إكمال جميع الحقول.');return}
+  if(!/^\S+@\S+\.\S+$/.test(email)){localMsg('registerMsg','يرجى إدخال البريد الإلكتروني بشكل صحيح.');return}
+  if(!localValidPhone(phone)){localMsg('registerMsg','يرجى إدخال رقم هاتف صحيح.');return}
+  if(!localValidBirthDate(birthDate)){localMsg('registerMsg','يرجى إدخال تاريخ ميلاد صحيح.');return}
+  if(password.length<8){localMsg('registerMsg','كلمة المرور يجب أن تكون 8 أحرف على الأقل.');return}
+  try{
+    if(await localGetUserByIndex('email',email)){localMsg('registerMsg','هذا البريد الإلكتروني مستخدم مسبقًا.');return}
+    if(await localGetUserByIndex('phone',phone)){localMsg('registerMsg','رقم الهاتف مستخدم مسبقًا.');return}
+    const user={userId:localId(),fullName:name,name,email,phone,birthDate,createdAt:new Date().toISOString(),role:'customer',balance:0,lifetimeEarned:0,orderCount:0,redeemedCount:0,wheel:{lastSpinAt:null,spinHistory:[]},wheelRewards:[]};
+    user.passwordHash=await localHashPassword(password);
+    await localPutUser(user);
+    const settings=localSettings(),bonus=Math.max(0,Number(settings.signupBonus||0));
+    if(bonus){localAddTransaction(user,bonus,'مكافأة إنشاء الحساب','signup');await localPutUser(user)}
+    localSetSession(user.userId);closeLoyaltyModal('loyaltyAuthModal');await loadLoyaltyDashboard();await wheelInit();showToast('تم إنشاء حسابك بنجاح، أهلًا بك في نادي الخيال 🧡');
+  }catch(err){console.error(err);localMsg('registerMsg','تعذر حفظ الحساب محليًا. تأكد من أن تخزين الموقع متاح في المتصفح.');}
+}
+async function loginLoyalty(e){
+  e.preventDefault();const f=new FormData(e.target),email=localNormalizeEmail(f.get('email')),password=String(f.get('password')||'');localMsg('loginMsg','');
+  if(!email||!password){localMsg('loginMsg','يرجى إكمال جميع الحقول.');return}
+  try{const user=await localGetUserByIndex('email',email);if(!user){localMsg('loginMsg','لم يتم العثور على حساب بهذا البريد الإلكتروني.');return}if(!(await localVerifyPassword(password,user.passwordHash))){localMsg('loginMsg','كلمة المرور غير صحيحة.');return}localSetSession(user.userId);closeLoyaltyModal('loyaltyAuthModal');await loadLoyaltyDashboard();await wheelInit();showToast('تم تسجيل الدخول بنجاح ❤️');}
+  catch(err){console.error(err);localMsg('loginMsg','تعذر تسجيل الدخول محليًا.');}
+}
+async function forgotLoyalty(e){
+  e.preventDefault();const f=new FormData(e.target),email=localNormalizeEmail(f.get('identifier')),birthDate=String(f.get('birthDate')||''),newPassword=String(f.get('newPassword')||'');localMsg('forgotMsg','');
+  if(!email||!birthDate||!newPassword){localMsg('forgotMsg','يرجى إكمال جميع الحقول.');return}
+  if(newPassword.length<8){localMsg('forgotMsg','كلمة المرور يجب أن تكون 8 أحرف على الأقل.');return}
+  try{const user=await localGetUserByIndex('email',email);if(!user){localMsg('forgotMsg','لم يتم العثور على حساب بهذا البريد الإلكتروني.');return}if(user.birthDate!==birthDate){localMsg('forgotMsg','بيانات الاستعادة غير صحيحة.');return}user.passwordHash=await localHashPassword(newPassword);await localPutUser(user);localMsg('forgotMsg','تم تغيير كلمة المرور محليًا بنجاح. يمكنك تسجيل الدخول الآن.','success');setTimeout(()=>switchAuthTab('login'),700);}
+  catch(err){console.error(err);localMsg('forgotMsg','تعذر تغيير كلمة المرور محليًا.');}
+}
+async function logoutLoyalty(){localClearSession();location.reload()}
+function renderLocalDashboard(user){
+  const {current,next}=localComputeLevel(user);document.getElementById('loyaltyActions').style.display='none';document.getElementById('loyaltyDashboard').classList.add('show');
+  document.getElementById('loyaltyUserName').textContent=user.fullName||user.name;document.getElementById('loyaltyBalance').textContent=`${Number(user.balance||0).toLocaleString('ar-IQ')} ⭐`;document.getElementById('loyaltyLevel').textContent=`${current.emoji} ${current.name}`;
+  if(next){const currentPts=Number(user.lifetimeEarned||0),target=Number(next.minLifetimePoints||0),pct=target?Math.min(100,currentPts/target*100):0;document.getElementById('loyaltyProgressText').textContent=`${currentPts} / ${target}`;document.getElementById('loyaltyProgressBar').style.width=pct+'%';document.getElementById('loyaltyNextText').textContent=`باقي ${Math.max(0,target-currentPts)} نقطة للوصول إلى المستوى التالي.`;}else{document.getElementById('loyaltyProgressText').textContent='أعلى مستوى';document.getElementById('loyaltyProgressBar').style.width='100%';document.getElementById('loyaltyNextText').textContent='أنت في أعلى مستوى حالياً 👑';}
+  document.getElementById('adminClubBtn').style.display='none';
+}
+async function loadLoyaltyDashboard(){
+  try{const session=localSession();if(!session?.userId){document.getElementById('loyaltyActions').style.display='flex';document.getElementById('loyaltyDashboard').classList.remove('show');return}const user=await localGetUser(session.userId);if(!user){localClearSession();document.getElementById('loyaltyActions').style.display='flex';document.getElementById('loyaltyDashboard').classList.remove('show');return}renderLocalDashboard(user);}
+  catch(e){console.warn('Offline loyalty:',e);}
+}
+async function openLoyaltyPanel(type){
+  const modal=document.getElementById('loyaltyPanelModal'),content=document.getElementById('loyaltyPanelContent'),title=document.getElementById('loyaltyPanelTitle');modal.classList.add('show');content.innerHTML='<div class="loyalty-muted">جاري التحميل...</div>';
+  try{
+    const session=localSession(),user=session?.userId?await localGetUser(session.userId):null;if(!user){closeLoyaltyModal('loyaltyPanelModal');openLoyaltyAuth('login');return}
+    const {current}=localComputeLevel(user);
+    if(type==='rewards'){title.textContent='مكافآت نادي الخيال 🎁';const rewards=localRewards().filter(r=>r.active);content.innerHTML=`<div class="reward-grid">${rewards.map(r=>{const enough=Number(user.balance)>=Number(r.pointsCost);return `<div class="reward-item"><h4>🎁 ${escapeHtml(r.name)}</h4><div class="loyalty-muted">${escapeHtml(r.description||'')}</div><div class="reward-cost">${r.pointsCost} نقطة</div><button class="loyalty-btn ${enough?'primary':'secondary'}" ${enough?'':'disabled'} onclick="redeemLocalReward('${r.id}')">${enough?'استبدل النقاط':`تحتاج ${Math.max(0,Number(r.pointsCost)-Number(user.balance))} نقطة إضافية`}</button></div>`}).join('')}</div>`;}
+    else if(type==='transactions'){title.textContent='سجل النقاط';const txs=localTransactions().filter(t=>t.userId===user.userId);content.innerHTML=`<div class="loyalty-list">${txs.map(t=>`<div class="loyalty-row"><div><strong>${escapeHtml(t.reason)}</strong><div class="loyalty-muted">${new Date(t.createdAt).toLocaleString('ar-IQ')}</div></div><div class="${t.points>0?'plus':'minus'}">${t.points>0?'+':''}${t.points} ⭐<div class="loyalty-muted">الرصيد: ${t.balanceAfter}</div></div></div>`).join('')||'<div class="loyalty-muted">لا توجد معاملات.</div>'}</div>`;}
+    else if(type==='wheelHistory'){
+      title.textContent='جوائز الدولاب 🎡';
+      wheelEnsureUserData(user);
+      const rewards=user.wheelRewards||[];
+      const history=user.wheel.spinHistory||[];
+      const rewardsHtml=rewards.length?rewards.map(r=>`<div class="loyalty-row"><div><strong>🎁 ${escapeHtml(r.title)}</strong><div class="loyalty-muted">${new Date(r.earnedAt).toLocaleString('ar-IQ')} · ${r.status==='available'?'متاحة':'مستخدمة'}</div></div><div class="voucher" style="margin:0">${escapeHtml(r.code)}</div></div>`).join(''):'<div class="loyalty-muted">لا توجد جوائز بعد — جرّب الدولاب اليوم.</div>';
+      const historyHtml=history.length?history.slice(0,10).map(h=>`<div class="loyalty-row"><div><strong>${escapeHtml(h.label)}</strong><div class="loyalty-muted">${new Date(h.wonAt).toLocaleString('ar-IQ')}</div></div></div>`).join(''):'<div class="loyalty-muted">لم تلعب بعد.</div>';
+      content.innerHTML=`<h4 style="margin-bottom:10px">جوائزي</h4><div class="loyalty-list">${rewardsHtml}</div><h4 style="margin:18px 0 10px">سجل الجولات</h4><div class="loyalty-list">${historyHtml}</div>`;
+    }
+    else if(type==='profile'){title.textContent='حسابي';content.innerHTML=`<div class="loyalty-list"><div class="loyalty-row"><span>الاسم</span><strong>${escapeHtml(user.fullName||user.name)}</strong></div><div class="loyalty-row"><span>الهاتف</span><strong>${escapeHtml(user.phone)}</strong></div><div class="loyalty-row"><span>البريد</span><strong>${escapeHtml(user.email)}</strong></div><div class="loyalty-row"><span>تاريخ الميلاد</span><strong>${escapeHtml(user.birthDate)}</strong></div><div class="loyalty-row"><span>المستوى</span><strong>${escapeHtml(current.emoji)} ${escapeHtml(current.name)}</strong></div><div class="loyalty-row"><span>النقاط</span><strong>${Number(user.balance||0)} ⭐</strong></div><div class="loyalty-row"><span>عدد الطلبات</span><strong>${Number(user.orderCount||0)}</strong></div><div class="loyalty-row"><span>المكافآت المستبدلة</span><strong>${Number(user.redeemedCount||0)}</strong></div><div class="loyalty-row"><span>تاريخ الانضمام</span><strong>${new Date(user.createdAt).toLocaleDateString('ar-IQ')}</strong></div></div>`;}
+  }catch(e){content.innerHTML=`<div class="loyalty-error">تعذر تحميل البيانات المحلية. ${escapeHtml(e.message)}</div>`;}
+}
+async function redeemLocalReward(id){
+  try{const session=localSession(),user=await localGetUser(session.userId),reward=localRewards().find(r=>r.id===id&&r.active);if(!reward){showToast('المكافأة غير متاحة حالياً.');return}if(Number(user.balance)<Number(reward.pointsCost)){showToast('نقاطك غير كافية لهذه المكافأة.');return}
+    const txs=localTransactions();const key=`redeem:${user.userId}:${id}:${new Date().toISOString().slice(0,10)}`;if(txs.some(t=>t.userId===user.userId&&t.referenceId===key)){showToast('تم تنفيذ هذا الاستبدال مسبقاً.');return}
+    const code=`XF-${Math.random().toString(36).slice(2,7).toUpperCase()}${Math.floor(Math.random()*10)}`;localAddTransaction(user,-Number(reward.pointsCost),`استبدال: ${reward.name}`,key);user.redeemedCount=Number(user.redeemedCount||0)+1;user.lastRedemption={id:localId(),rewardId:id,code,status:'active',createdAt:new Date().toISOString()};await localPutUser(user);
+    document.getElementById('loyaltyPanelContent').innerHTML=`<div class="loyalty-card" style="text-align:center"><div style="font-size:40px">🎁</div><h3>مكافأتك جاهزة!</h3><p class="loyalty-muted">${escapeHtml(reward.name)} · تم خصم ${reward.pointsCost} نقطة.</p><div class="voucher">${escapeHtml(code)}</div><button class="loyalty-btn secondary" style="margin-top:10px" onclick="navigator.clipboard?.writeText('${code}');showToast('تم نسخ الرمز')">نسخ الرمز</button></div>`;await loadLoyaltyDashboard();
+  }catch(e){console.error(e);showToast('تعذر تنفيذ الاستبدال محلياً.');}
+}
+
+/* Admin remains intentionally separate from customer accounts. The existing server-side Admin API is not used by customer authentication. */
+async function renderAdminTab(tab){const box=document.getElementById('adminTabContent');if(!box)return;box.innerHTML='<div class="loyalty-muted">إدارة العملاء مرتبطة بنظام الإدارة المنفصل في المشروع.</div>';}
+async function adminAdjust(){showToast('حسابات العملاء المحلية لا يمكن تعديلها من واجهة العميل.');}
+async function saveAdminSettings(){showToast('إعدادات نادي الخيال المحلية تُحفظ داخل هذا المتصفح فقط.');}
+async function toggleReward(){showToast('المكافآت المحلية قابلة للتوسعة لاحقاً من لوحة الإدارة.');}
+/* ================= دولاب الحظ اليومي — Daily Wheel of Fortune (Offline) ================= */
+/* يعتمد بالكامل على نفس نظام الحسابات المحلية (IndexedDB) ونفس نظام النقاط (localAddTransaction) أعلاه.
+   لا يوجد أي اتصال بالإنترنت أو خادم؛ كل البيانات مرتبطة بهذا الجهاز/المتصفح فقط. */
+
+// احتمالات كل جائزة قابلة للتعديل من هنا فقط — مجموعها يجب أن يبقى 100
+const WHEEL_PRIZES=[
+  // الجوائز مرتبة من الأسهل إلى الأصعب، واحتمالاتها تعكس هذا التدرج.
+  {id:'free_drink',   label:'مشروب مجاني',       icon:'🥤', type:'wheel_reward', probability:55},
+  {id:'free_sauce',   label:'صوص مجاني',          icon:'🥫', type:'wheel_reward', probability:25},
+  {id:'free_chicken', label:'سندويچ دجاج مجاني',  icon:'🥪', type:'wheel_reward', probability:15},
+  {id:'discount_20',  label:'خصم 20%',            icon:'20%', type:'wheel_reward', probability:5}
+];
+const WHEEL_COOLDOWN_MS=24*60*60*1000;
+
+let wheelSpinning=false;
+let wheelCurrentRotation=0;
+let wheelCountdownTimer=null;
+
+function wheelEnsureUserData(user){
+  if(!user.wheel||typeof user.wheel!=='object')user.wheel={lastSpinAt:null,spinHistory:[]};
+  if(!Array.isArray(user.wheel.spinHistory))user.wheel.spinHistory=[];
+  if(!Array.isArray(user.wheelRewards))user.wheelRewards=[];
+  return user;
+}
+function wheelCanSpin(user){
+  const last=user?.wheel?.lastSpinAt;
+  if(!last)return true;
+  return (Date.now()-Number(last))>=WHEEL_COOLDOWN_MS;
+}
+function wheelRemainingMs(user){
+  const last=user?.wheel?.lastSpinAt;
+  if(!last)return 0;
+  return Math.max(0,WHEEL_COOLDOWN_MS-(Date.now()-Number(last)));
+}
+function wheelFormatCountdown(ms){
+  const total=Math.max(0,Math.floor(ms/1000));
+  const h=String(Math.floor(total/3600)).padStart(2,'0');
+  const m=String(Math.floor((total%3600)/60)).padStart(2,'0');
+  const s=String(total%60).padStart(2,'0');
+  return `${h}:${m}:${s}`;
+}
+function wheelSelectPrize(){
+  const total=WHEEL_PRIZES.reduce((s,p)=>s+Number(p.probability||0),0)||100;
+  let r=Math.random()*total;
+  for(const prize of WHEEL_PRIZES){r-=Number(prize.probability||0);if(r<=0)return prize;}
+  return WHEEL_PRIZES[WHEEL_PRIZES.length-1];
+}
+function wheelPointOnCircle(cx,cy,r,angleDeg){
+  const rad=(angleDeg-90)*Math.PI/180;
+  return {x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};
+}
+function wheelBuildSvg(){
+  const n=WHEEL_PRIZES.length,seg=360/n,cx=150,cy=150,r=142,textR=98;
+  let sectors='',labels='';
+  for(let i=0;i<n;i++){
+    const prize=WHEEL_PRIZES[i],a0=i*seg,a1=(i+1)*seg;
+    const p0=wheelPointOnCircle(cx,cy,r,a0),p1=wheelPointOnCircle(cx,cy,r,a1);
+    const largeArc=seg>180?1:0;
+    const isSpecial=prize.type==='free_delivery'||prize.type==='special_reward';
+    const fill=isSpecial?'url(#wheelGoldGrad)':(i%2===0?'#231712':'#170f0b');
+    const textFill=isSpecial?'#160d08':'#f4ecdf';
+    sectors+=`<path d="M${cx},${cy} L${p0.x.toFixed(2)},${p0.y.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${p1.x.toFixed(2)},${p1.y.toFixed(2)} Z" fill="${fill}" stroke="rgba(244,236,223,0.10)" stroke-width="1.5"/>`;
+    const mid=a0+seg/2,tp=wheelPointOnCircle(cx,cy,textR,mid);
+    let rot=mid;if(rot>90&&rot<270)rot+=180;
+    labels+=`<text x="${tp.x.toFixed(2)}" y="${tp.y.toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${tp.x.toFixed(2)} ${tp.y.toFixed(2)})" text-anchor="middle" font-family="Cairo, sans-serif" font-weight="800" font-size="12" fill="${textFill}"><tspan x="${tp.x.toFixed(2)}" dy="-6">${escapeHtml(prize.icon||'')}</tspan><tspan x="${tp.x.toFixed(2)}" dy="15">${escapeHtml(prize.label)}</tspan></text>`;
+  }
+  return `<svg viewBox="0 0 300 300" role="img" aria-label="دولاب الحظ اليومي"><defs><linearGradient id="wheelGoldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9a05c"/><stop offset="1" stop-color="#e07a34"/></linearGradient></defs><circle cx="${cx}" cy="${cy}" r="${r+4}" fill="#0b0a09" stroke="#c9a05c" stroke-width="2" opacity="0.35"/>${sectors}${labels}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#0b0a09" stroke-width="4"/></svg>`;
+}
+function wheelComputeRotation(idx){
+  const n=WHEEL_PRIZES.length,seg=360/n;
+  const margin=Math.min(6,seg*0.18);
+  const jitter=(Math.random()*(seg-margin*2))-(seg/2-margin);
+  const targetCenter=((idx*seg+seg/2+jitter)%360+360)%360;
+  const base=(360-targetCenter)%360;
+  const spins=6+Math.floor(Math.random()*3);
+  let total=Math.ceil(wheelCurrentRotation/360)*360+spins*360+base;
+  if(total<=wheelCurrentRotation)total+=360;
+  wheelCurrentRotation=total;
+  return total;
+}
+function wheelSaveSpin(user,prize){
+  user.wheel.spinHistory.unshift({id:localId(),prizeId:prize.id,label:prize.label,type:prize.type,value:prize.value||null,wonAt:Date.now()});
+  user.wheel.spinHistory=user.wheel.spinHistory.slice(0,50);
+  user.wheel.lastSpinAt=Date.now();
+}
+async function wheelApplyPrize(user,prize){
+  if(prize.type==='wheel_reward'){
+    const code=`WH-${Math.random().toString(36).slice(2,7).toUpperCase()}${Math.floor(Math.random()*10)}`;
+    user.wheelRewards.unshift({
+      id:localId(),type:'wheel_reward',title:prize.label,source:'daily_wheel',
+      earnedAt:Date.now(),status:'available',code
+    });
+  }
+}
+function wheelFireConfetti(){
+  const layer=document.getElementById('wheelConfettiLayer');
+  if(!layer)return;
+  layer.innerHTML='';
+  const colors=['#c9a05c','#e07a34','#f4ecdf','#9bd48b'];
+  for(let i=0;i<22;i++){
+    const el=document.createElement('span');
+    el.className='wheel-confetti-piece';
+    el.style.left=(Math.random()*100)+'%';
+    el.style.background=colors[i%colors.length];
+    el.style.animationDelay=(Math.random()*0.3)+'s';
+    layer.appendChild(el);
+  }
+  setTimeout(()=>{if(layer)layer.innerHTML='';},1800);
+}
+function wheelShowResult(prize){
+  const modal=document.getElementById('wheelResultModal'),content=document.getElementById('wheelResultContent');
+  let html;
+  if(prize.type==='wheel_reward'){
+    html=`<div style="text-align:center">
+      <div style="font-size:44px">🎉</div>
+      <h3>مبروك!</h3>
+      <p class="loyalty-muted">لقد ربحت</p>
+      <div class="loyalty-level" style="font-size:16px">${prize.icon} ${escapeHtml(prize.label)}</div>
+      <p class="loyalty-muted" style="margin-top:10px">تم حفظ الجائزة في حسابك ويمكنك استخدامها في طلبك القادم.</p>
+      <button class="loyalty-btn primary" style="margin-top:14px;width:100%" onclick="closeLoyaltyModal('wheelResultModal')">حسناً</button>
+    </div>`;
+  }else{
+    html=`<div style="text-align:center">
+      <div style="font-size:44px">🍀</div>
+      <h3>حظ أوفر في المرة القادمة</h3>
+      <p class="loyalty-muted">لم تحصل على جائزة هذه المرة.</p>
+      <button class="loyalty-btn primary" style="margin-top:14px;width:100%" onclick="closeLoyaltyModal('wheelResultModal')">حسناً</button>
+    </div>`;
+  }
+  content.innerHTML=html;
+  modal.classList.add('show');
+}
+function wheelRenderStatus(user){
+  const hub=document.getElementById('wheelHubBtn'),icon=document.getElementById('wheelHubIcon'),statusText=document.getElementById('wheelStatusText');
+  if(!hub||!statusText)return;
+  clearInterval(wheelCountdownTimer);
+  const tick=()=>{
+    if(wheelSpinning)return;
+    const remaining=wheelRemainingMs(user);
+    if(remaining<=0){
+      hub.disabled=false;hub.removeAttribute('aria-disabled');
+      if(icon)icon.textContent='🎡';
+      statusText.innerHTML='لديك محاولة اليوم! اضغط على الدولاب للف 🎉';
+      clearInterval(wheelCountdownTimer);
+    }else{
+      hub.disabled=true;hub.setAttribute('aria-disabled','true');
+      if(icon)icon.textContent='⏳';
+      statusText.innerHTML=`المحاولة القادمة متاحة بعد<div class="wheel-countdown">${wheelFormatCountdown(remaining)}</div>`;
+    }
+  };
+  tick();
+  wheelCountdownTimer=setInterval(tick,1000);
+}
+// نقطة تحقق ثانية داخل الدالة نفسها؛ لا يمكن تجاوز قفل الـ24 ساعة حتى لو استُدعيت هذه الدالة من مكان آخر في الواجهة
+async function spinWheel(){
+  if(wheelSpinning)return;
+  wheelSpinning=true;
+  const hub=document.getElementById('wheelHubBtn');
+  if(hub){hub.disabled=true;hub.setAttribute('aria-disabled','true');}
+  try{
+    const session=localSession();
+    if(!session?.userId){
+      wheelSpinning=false;if(hub){hub.disabled=false;hub.removeAttribute('aria-disabled');}
+      openLoyaltyAuth('login');showToast('سجّل الدخول أولاً للحصول على فرصتك اليومية');return;
+    }
+    const user=await localGetUser(session.userId);
+    if(!user){wheelSpinning=false;openLoyaltyAuth('login');return;}
+    wheelEnsureUserData(user);
+    if(!wheelCanSpin(user)){wheelSpinning=false;wheelRenderStatus(user);return;}
+    const icon=document.getElementById('wheelHubIcon'),statusText=document.getElementById('wheelStatusText');
+    if(icon)icon.textContent='🎡';
+    if(statusText)statusText.textContent='الدولاب يدور... 🍀';
+    const prize=wheelSelectPrize();
+    const idx=WHEEL_PRIZES.findIndex(p=>p.id===prize.id);
+    const dial=document.getElementById('wheelDial');
+    const rotation=wheelComputeRotation(idx);
+    dial.style.transform=`rotate(${rotation}deg)`;
+    const onDone=async()=>{
+      dial.removeEventListener('transitionend',onDone);
+      try{
+        wheelSaveSpin(user,prize);
+        await wheelApplyPrize(user,prize);
+        await localPutUser(user);
+        await loadLoyaltyDashboard();
+      }catch(e){console.error('Wheel save error:',e);}
+      wheelSpinning=false;
+      wheelShowResult(prize);
+      wheelRenderStatus(user);
+    };
+    dial.addEventListener('transitionend',onDone,{once:true});
+  }catch(e){
+    console.error('Wheel spin error:',e);
+    wheelSpinning=false;
+    if(hub){hub.disabled=false;hub.removeAttribute('aria-disabled');}
+    showToast('تعذر تشغيل الدولاب محلياً.');
+  }
+}
+async function wheelInit(){
+  const lockedEl=document.getElementById('wheelLockedState'),activeEl=document.getElementById('wheelActiveState');
+  if(!lockedEl||!activeEl)return;
+  clearInterval(wheelCountdownTimer);
+  const session=localSession();
+  if(!session?.userId){lockedEl.style.display='block';activeEl.style.display='none';return;}
+  let user;
+  try{user=await localGetUser(session.userId);}catch(e){console.warn('Wheel offline:',e);return;}
+  if(!user){lockedEl.style.display='block';activeEl.style.display='none';return;}
+  wheelEnsureUserData(user);
+  lockedEl.style.display='none';
+  activeEl.style.display='block';
+  const dial=document.getElementById('wheelDial');
+  if(dial&&!dial.innerHTML)dial.innerHTML=wheelBuildSvg();
+  wheelRenderStatus(user);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{loadLoyaltyDashboard();wheelInit();document.querySelectorAll('.loyalty-modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));});
+
 </script>
 </body>
 </html>
